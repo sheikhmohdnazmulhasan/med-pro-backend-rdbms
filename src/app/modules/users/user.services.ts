@@ -30,7 +30,7 @@ async function createAdminIntoDb(payload: any) {
             success: true,
             statusCode: 201,
             message: 'admin created successfully',
-            data: result[0]
+            data: result[1]
         }
 
     } catch (error: any) {
