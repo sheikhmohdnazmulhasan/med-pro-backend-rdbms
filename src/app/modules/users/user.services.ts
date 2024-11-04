@@ -1,4 +1,5 @@
 import { PrismaClient, UserRole } from "@prisma/client";
+import { encryptPassword } from "../../utils/hash_password";
 
 const prisma = new PrismaClient();
 
@@ -7,7 +8,7 @@ async function createAdminIntoDb(payload: any) {
     try {
         const userPayload = {
             email: payload.admin.email,
-            password: payload.password,
+            password: await encryptPassword(payload.password),
             role: UserRole.ADMIN
         };
 
