@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application, Request, Response, urlencoded } from 'express';
 import cors from 'cors';
 import { Server } from 'http';
 import config from './app/config';
@@ -10,6 +10,7 @@ let server: Server;
 // parser
 app.use(express.json());
 app.use(cors());
+app.use(urlencoded({ extended: true }));
 
 // root endpoint
 app.get('/', (req: Request, res: Response) => {

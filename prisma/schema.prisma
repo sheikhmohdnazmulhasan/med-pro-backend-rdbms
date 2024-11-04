@@ -11,9 +11,9 @@ model User {
   id                 String     @id @default(uuid())
   email              String     @unique
   password           String
-  needPasswordChange Boolean
+  needPasswordChange Boolean    @default(true)
   role               UserRole
-  status             UserStatus
+  status             UserStatus @default(ACTIVE)
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
   admin              Admin?
