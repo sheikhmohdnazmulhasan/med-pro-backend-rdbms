@@ -32,11 +32,11 @@ async function createAdminIntoDb(payload: any) {
             data: result[0]
         }
 
-    } catch (error) {
+    } catch (error: any) {
         return {
             success: false,
             statusCode: 500,
-            message: 'internal server error',
+            message: error.message || 'internal server error',
             error
         }
     }
