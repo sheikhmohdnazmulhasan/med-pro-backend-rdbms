@@ -4,6 +4,8 @@ const prisma = new PrismaClient();
 
 async function getAllAdminFromDb(params: any) {
 
+    console.log(params);
+
     try {
         const result = params && params.searchTerm ?
             await prisma.admin.findMany({
@@ -15,7 +17,18 @@ async function getAllAdminFromDb(params: any) {
                         }
                     }))
                 }
-            }) : await prisma.admin.findMany();
+            }) : Object.keys(params).filter((key: string) => key !== params.searchTerm).length > 0 ?
+                await prisma.admin.findMany({
+                    where: {
+                        AND: Object.keys(params).map((key: string) => {
+                            const value: string = params[key]
+
+                            if (typeof value === 'string' && isDateString(value)) {
+
+                            }
+                        })
+                    }
+                }) : await prisma.admin.findMany()
 
         return {
             success: true,
