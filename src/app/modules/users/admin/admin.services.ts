@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client"
+import isDateString from "../../../utils/isDateString";
 
 const prisma = new PrismaClient();
 
 async function getAllAdminFromDb(params: any) {
-
-    console.log(params);
 
     try {
         const result = params && params.searchTerm ?
@@ -21,10 +20,21 @@ async function getAllAdminFromDb(params: any) {
                 await prisma.admin.findMany({
                     where: {
                         AND: Object.keys(params).map((key: string) => {
-                            const value: string = params[key]
 
-                            if (typeof value === 'string' && isDateString(value)) {
-
+                            // Check if the value is a date string
+                            if (typeof params[key] === 'string' && isDateString(params[key])) {
+                                return {
+                                    [key]: {
+                                        equals: new Date(params[key])
+                                    }
+                                }
+                            } else {
+                                return {
+                                    [key]: {
+                                        equals: params[key],
+                                        mode: 'insensitive'
+                                    }
+                                }
                             }
                         })
                     }
