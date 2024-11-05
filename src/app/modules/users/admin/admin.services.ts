@@ -2,9 +2,17 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
-async function getAllAdminFromDb() {
+async function getAllAdminFromDb(params: any) {
     try {
-        const result = await prisma.admin.findMany();
+        const result = await prisma.admin.findMany({
+            where: {
+                name: {
+                    contains: params.searchTerm,
+                    mode: 'insensitive'
+                }
+            }
+        });
+
         return {
             success: true,
             statusCode: 200,
