@@ -5,16 +5,17 @@ const prisma = new PrismaClient();
 async function getAllAdminFromDb(params: any) {
 
     try {
-        const result = await prisma.admin.findMany({
-            where: {
-                OR: ['name', 'email'].map((field: string) => ({
-                    [field]: {
-                        contains: params.searchTerm,
-                        mode: 'insensitive',
-                    }
-                }))
-            }
-        });
+        const result = params && params.searchTerm ?
+            await prisma.admin.findMany({
+                where: {
+                    OR: ['name', 'email'].map((field: string) => ({
+                        [field]: {
+                            contains: params.searchTerm,
+                            mode: 'insensitive',
+                        }
+                    }))
+                }
+            }) : await prisma.admin.findMany();
 
         return {
             success: true,
