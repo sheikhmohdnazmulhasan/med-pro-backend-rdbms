@@ -8,7 +8,7 @@ async function getAllAdminFromDb() {
         return {
             success: true,
             statusCode: 200,
-            message: 'admins fetched successfully',
+            message: 'Admins fetched successfully',
             data: result
         };
 
@@ -22,6 +22,6 @@ async function getAllAdminFromDb() {
     }
 }
 
-export const adminServices = {
+export const AdminServices = {
     getAllAdminFromDb
 }
