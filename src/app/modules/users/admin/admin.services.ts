@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client"
 import isDateString from "../../../utils/isDateString";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../../constants/prisma_constructor";
 
 async function getAllAdminFromDb(params: any) {
 

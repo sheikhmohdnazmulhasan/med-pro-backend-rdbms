@@ -1,7 +1,6 @@
-import { PrismaClient, UserRole } from "@prisma/client";
+import { UserRole } from "@prisma/client";
 import { encryptPassword } from "../../utils/hash_password";
-
-const prisma = new PrismaClient();
+import { prisma } from "../../constants/prisma_constructor";
 
 async function createAdminIntoDb(payload: any) {
 
