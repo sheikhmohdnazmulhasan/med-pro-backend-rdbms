@@ -13,8 +13,22 @@ async function getAllAdmin(req: Request, res: Response) {
             error
         })
     }
+};
+
+async function getSingleAdminByID(req: Request, res: Response) {
+    try {
+        const result = await AdminServices.getSingleAdminByIDFromDb(req.params.id);
+
+    } catch (error) {
+        res.send(500).json({
+            success: false,
+            message: 'something went wrong',
+            error
+        })
+    }
 }
 
 export const AdminControllers = {
-    getAllAdmin
+    getAllAdmin,
+    getSingleAdminByID
 }
