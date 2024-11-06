@@ -55,8 +55,13 @@ async function getAllAdminFromDb(params: any) {
             error
         }
     }
+};
+
+async function getSingleAdminByIDFromDb(id: string) {
+    console.log(id);
 }
 
 export const AdminServices = {
-    getAllAdminFromDb
+    getAllAdminFromDb,
+    getSingleAdminByIDFromDb
 }
