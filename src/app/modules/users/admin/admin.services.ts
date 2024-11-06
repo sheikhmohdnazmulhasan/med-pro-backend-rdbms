@@ -58,7 +58,28 @@ async function getAllAdminFromDb(params: any) {
 };
 
 async function getSingleAdminByIDFromDb(id: string) {
-    console.log(id);
+    try {
+        const result = await prisma.admin.findUnique({
+            where: {
+                id
+            }
+        });
+
+        return {
+            success: true,
+            statusCode: 200,
+            message: 'admin fetched successfully',
+            data: result
+        }
+
+    } catch (error: any) {
+        return {
+            success: false,
+            statusCode: 500,
+            message: error.message || 'internal server error',
+            error
+        }
+    }
 }
 
 export const AdminServices = {
