@@ -42,10 +42,26 @@ async function updateAdmin(req: Request, res: Response) {
             error
         })
     }
-}
+};
+
+async function deleteAdmin(req: Request, res: Response) {
+    try {
+        const result = await AdminServices.deleteAdminFromDb(req.params.id as string);
+        res.status(result.statusCode).json(result);
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'internal server error',
+            error
+        })
+    }
+};
+
 
 export const AdminControllers = {
     getAllAdmin,
     getSingleAdminByID,
-    updateAdmin
+    updateAdmin,
+    deleteAdmin
 }
