@@ -1,7 +1,15 @@
-interface ApiResponse {
-    success: boolean;
+interface ApiSuccessResponse<T = any> {
+    success: true;
     statusCode: number;
     message: string;
-    data?: any; // Replace `any` with the actual Admin type if available
-    error?: any; // Replace `any` with the error type if available
+    data: T;
 }
+
+interface ApiErrorResponse {
+    success: false;
+    statusCode: number;
+    message: string;
+    error: any;
+}
+
+type ApiResponse<T = any> = ApiSuccessResponse<T> | ApiErrorResponse;

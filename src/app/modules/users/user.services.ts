@@ -29,7 +29,7 @@ async function createAdminIntoDb(payload: any): Promise<ApiResponse> {
             success: true,
             statusCode: 201,
             message: 'admin created successfully',
-            data: result[1]
+            data: result[1],
         }
 
     } catch (error: any) {
@@ -37,7 +37,7 @@ async function createAdminIntoDb(payload: any): Promise<ApiResponse> {
             success: false,
             statusCode: 500,
             message: error.message || 'internal server error',
-            error
+            error,
         }
     }
 }
