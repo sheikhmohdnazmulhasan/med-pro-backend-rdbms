@@ -2,7 +2,7 @@ import { UserRole } from "@prisma/client";
 import { encryptPassword } from "../../utils/hash_password";
 import { prisma } from "../../constants/prisma_constructor";
 
-async function createAdminIntoDb(payload: any) {
+async function createAdminIntoDb(payload: any): Promise<ApiResponse> {
 
     try {
         const userPayload = {

@@ -2,7 +2,7 @@ import isDateString from "../../../utils/isDateString";
 import { prisma } from "../../../constants/prisma_constructor";
 import { Admin, Prisma } from "@prisma/client";
 
-async function getAllAdminFromDb(params: any) {
+async function getAllAdminFromDb(params: any): Promise<ApiResponse> {
 
     try {
         const result = params && params.searchTerm ?
@@ -56,7 +56,7 @@ async function getAllAdminFromDb(params: any) {
     }
 };
 
-async function getSingleAdminByIDFromDb(id: string) {
+async function getSingleAdminByIDFromDb(id: string): Promise<ApiResponse> {
     try {
         const result = await prisma.admin.findUnique({
             where: {
@@ -81,7 +81,7 @@ async function getSingleAdminByIDFromDb(id: string) {
     }
 };
 
-async function updateAdminIntoDb(id: string, payload: Partial<Admin>) {
+async function updateAdminIntoDb(id: string, payload: Partial<Admin>): Promise<ApiResponse> {
     try {
         await prisma.admin.findUniqueOrThrow({
             where: {
@@ -113,7 +113,7 @@ async function updateAdminIntoDb(id: string, payload: Partial<Admin>) {
 
 };
 
-async function deleteAdminFromDb(id: string) {
+async function deleteAdminFromDb(id: string): Promise<ApiResponse> {
     try {
         const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
             const admin = await tx.admin.delete({
