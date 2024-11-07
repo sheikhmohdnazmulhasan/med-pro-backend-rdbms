@@ -1,5 +1,6 @@
 import isDateString from "../../../utils/isDateString";
 import { prisma } from "../../../constants/prisma_constructor";
+import { Admin } from "@prisma/client";
 
 async function getAllAdminFromDb(params: any) {
 
@@ -78,9 +79,37 @@ async function getSingleAdminByIDFromDb(id: string) {
             error
         }
     }
+};
+
+async function updateAdminIntoDb(id: string, payload: Partial<Admin>) {
+    try {
+        const result = await prisma.admin.update({
+            where: {
+                id
+            },
+            data: payload
+        });
+
+        return {
+            success: true,
+            statusCode: 200,
+            message: 'Admin info updated successfully',
+            data: result
+        };
+
+    } catch (error: any) {
+        return {
+            success: false,
+            statusCode: 500,
+            message: error.message || 'internal server error',
+            error
+        }
+    }
+
 }
 
 export const AdminServices = {
     getAllAdminFromDb,
-    getSingleAdminByIDFromDb
+    getSingleAdminByIDFromDb,
+    updateAdminIntoDb
 }
