@@ -83,6 +83,11 @@ async function getSingleAdminByIDFromDb(id: string) {
 
 async function updateAdminIntoDb(id: string, payload: Partial<Admin>) {
     try {
+        await prisma.admin.findUniqueOrThrow({
+            where: {
+                id
+            }
+        })
         const result = await prisma.admin.update({
             where: {
                 id
@@ -100,7 +105,7 @@ async function updateAdminIntoDb(id: string, payload: Partial<Admin>) {
     } catch (error: any) {
         return {
             success: false,
-            statusCode: 500,
+            statusCode: error.status || 500,
             message: error.message || 'internal server error',
             error
         }
