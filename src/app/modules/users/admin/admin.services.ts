@@ -1,6 +1,6 @@
 import isDateString from "../../../utils/isDateString";
 import { prisma } from "../../../constants/prisma_constructor";
-import { Admin } from "@prisma/client";
+import { Admin, Prisma } from "@prisma/client";
 
 async function getAllAdminFromDb(params: any) {
 
@@ -111,10 +111,46 @@ async function updateAdminIntoDb(id: string, payload: Partial<Admin>) {
         }
     }
 
+};
+
+async function deleteAdminFromDb(id: string) {
+    try {
+        const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+            const admin = await tx.admin.delete({
+                where: {
+                    id
+                }
+            });
+
+            const userProfile = await tx.user.delete({
+                where: {
+                    email: admin['email']
+                }
+            });
+
+            return [admin, userProfile]
+        });
+
+        return {
+            success: true,
+            statusCode: 200,
+            message: 'Admin info deleted successfully',
+            data: result[1]
+        };
+
+    } catch (error: any) {
+        return {
+            success: false,
+            statusCode: error.status || 500,
+            message: error.message || 'internal server error',
+            error
+        }
+    }
 }
 
 export const AdminServices = {
     getAllAdminFromDb,
     getSingleAdminByIDFromDb,
-    updateAdminIntoDb
+    updateAdminIntoDb,
+    deleteAdminFromDb
 }
