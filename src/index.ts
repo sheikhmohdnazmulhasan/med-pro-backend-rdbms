@@ -3,6 +3,7 @@ import cors from 'cors';
 import { Server } from 'http';
 import config from './app/config';
 import router from './router';
+import globalErrorHandler from './app/middlewares/global_error_handler';
 
 const app: Application = express();
 let server: Server;
@@ -18,7 +19,9 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // application route
-app.use('/api/v1', router)
+app.use('/api/v1', router);
+
+app.use(globalErrorHandler)
 
 // not found route
 app.all('*', (req: Request, res: Response) => {
@@ -28,6 +31,8 @@ app.all('*', (req: Request, res: Response) => {
         message: "Endpoint Not Found",
     });
 });
+
+app.use()
 
 server = app.listen(config.port || 5000, () => {
     console.log(`MedPro is listening on port ${config.port || 5000}`);
