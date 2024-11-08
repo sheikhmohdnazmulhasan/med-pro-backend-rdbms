@@ -1,6 +1,7 @@
 import isDateString from "../../../utils/isDateString";
 import { prisma } from "../../../constants/prisma_constructor";
 import { Admin, Prisma } from "@prisma/client";
+import { NextFunction } from "express";
 
 async function getAllAdminFromDb(params: any): Promise<ApiResponse> {
 
@@ -113,7 +114,7 @@ async function updateAdminIntoDb(id: string, payload: Partial<Admin>): Promise<A
 
 };
 
-async function deleteAdminFromDb(id: string): Promise<ApiResponse> {
+async function deleteAdminFromDb(id: string, next: NextFunction) {
     try {
         const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
             const admin = await tx.admin.delete({
@@ -139,12 +140,14 @@ async function deleteAdminFromDb(id: string): Promise<ApiResponse> {
         };
 
     } catch (error: any) {
-        return {
-            success: false,
-            statusCode: error.status || 500,
-            message: error.message || 'internal server error',
-            error
-        }
+        // return {
+        //     success: false,
+        //     statusCode: error.status || 500,
+        //     message: error.message || 'internal server error',
+        //     error
+        // }
+        next(next)
+
     }
 }
 

@@ -32,8 +32,6 @@ app.all('*', (req: Request, res: Response) => {
     });
 });
 
-app.use()
-
 server = app.listen(config.port || 5000, () => {
     console.log(`MedPro is listening on port ${config.port || 5000}`);
 });
