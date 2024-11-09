@@ -1,5 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../constants/prisma_constructor';
+import jwt from 'jsonwebtoken';
+import config from '../../config';
 
 async function loginFromDb(payload: {
     email: string;
@@ -22,6 +24,16 @@ async function loginFromDb(payload: {
             };
         };
 
+        const accessToken = jwt.sign({
+            id: user.id,
+            email: user.email,
+            role: user.role,
+        },
+            config.jwt_access_token_secret as string,
+            {
+                expiresIn: '7d'
+            }
+        );
 
 
     } catch (error: any) {
