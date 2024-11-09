@@ -1,7 +1,7 @@
-import isDateString from "../../../utils/isDateString";
 import { prisma } from "../../../constants/prisma_constructor";
 import { Admin, Prisma } from "@prisma/client";
 import { NextFunction } from "express";
+import isDateString from "../../../../utils/isDateString";
 
 async function getAllAdminFromDb(params: any): Promise<ApiResponse> {
 
