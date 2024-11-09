@@ -35,6 +35,34 @@ async function loginFromDb(payload: {
             }
         );
 
+        if (!accessToken) {
+            return {
+                success: false,
+                statusCode: 400,
+                message: 'failed to create access token'
+            }
+        }
+
+        const refreshToken = jwt.sign({
+            id: user.id,
+            email: user.email,
+            role: user.role,
+        },
+            config.jwt_access_token_secret as string,
+            {
+                expiresIn: '365d'
+            }
+        );
+
+        return {
+            success: true,
+            statusCode: 200,
+            message: 'logged in successful',
+            data: {
+                accessToken,
+                refreshToken
+            }
+        }
 
     } catch (error: any) {
         return {
