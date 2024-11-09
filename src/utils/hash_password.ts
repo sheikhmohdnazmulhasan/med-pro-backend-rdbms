@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
-import config from '../config';
+import config from '../app/config';
+
 
 export async function encryptPassword(solidPassword: string) {
 

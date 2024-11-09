@@ -1,9 +1,9 @@
 import express, { Application, Request, Response, urlencoded } from 'express';
 import cors from 'cors';
 import { Server } from 'http';
-import config from './app/config';
 import globalErrorHandler from './app/middlewares/global_error_handler';
 import router from './app/router';
+import config from './app/config';
 
 const app: Application = express();
 let server: Server;
