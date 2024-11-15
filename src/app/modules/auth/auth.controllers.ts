@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { AuthServices } from "./auth.services";
 
 async function login(req: Request, res: Response) {
@@ -34,6 +34,16 @@ async function login(req: Request, res: Response) {
     }
 };
 
+async function changePassword(req: Request, res: Response, next: NextFunction) {
+    try {
+        const result = await AuthServices.changePasswordIntoDb(req.user, req.body);
+        res.status(result.statusCode).json(result)
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const authControllers = {
-    login
+    login,
+    changePassword
 }

@@ -106,6 +106,13 @@ async function changePasswordIntoDb(user: JwtPayload, payload: { oldPassword: st
             }
         });
 
+        return {
+            success: true,
+            statusCode: 200,
+            message: 'password changed successfully',
+
+        }
+
     } catch (error: any) {
         return {
             success: false,
@@ -117,5 +124,6 @@ async function changePasswordIntoDb(user: JwtPayload, payload: { oldPassword: st
 }
 
 export const AuthServices = {
-    loginFromDb
+    loginFromDb,
+    changePasswordIntoDb
 }
