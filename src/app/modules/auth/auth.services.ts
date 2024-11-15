@@ -1,7 +1,9 @@
 import bcrypt from 'bcryptjs';
 import { prisma } from '../../constants/prisma_constructor';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
+import { UserStatus } from '@prisma/client';
+import { encryptPassword } from '../../../utils/hash_password';
 
 async function loginFromDb(payload: {
     email: string;
@@ -73,6 +75,46 @@ async function loginFromDb(payload: {
         }
     }
 };
+
+async function changePasswordIntoDb(user: JwtPayload, payload: { oldPassword: string; newPassword: string }) {
+
+    try {
+        const userObj = await prisma.user.findUniqueOrThrow({
+            where: {
+                email: user.email,
+                status: UserStatus.ACTIVE
+            }
+        });
+
+        const isCorrectPassword = await bcrypt.compare(payload.oldPassword, userObj.password);
+
+        if (!isCorrectPassword) {
+            return {
+                success: false,
+                statusCode: 401,
+                message: 'Incorrect password'
+            };
+        };
+
+        await prisma.user.update({
+            where: {
+                email: user.email
+            },
+            data: {
+                password: await encryptPassword(payload.newPassword),
+                needPasswordChange: false
+            }
+        });
+
+    } catch (error: any) {
+        return {
+            success: false,
+            statusCode: 500,
+            message: error.message || 'internal server error',
+            error,
+        }
+    }
+}
 
 export const AuthServices = {
     loginFromDb
