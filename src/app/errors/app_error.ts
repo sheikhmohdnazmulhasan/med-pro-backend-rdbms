@@ -1,6 +1,6 @@
 class AppError extends Error {
     statusCode: number;
-    constructor(statusCode: number, message: string | undefined, stack: string | undefined) {
+    constructor(statusCode: number, message: string | undefined, stack: string = '') {
         super(message);
         this.statusCode = statusCode;
 
@@ -11,3 +11,5 @@ class AppError extends Error {
         }
     }
 }
+
+export default AppError;
