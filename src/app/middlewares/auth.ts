@@ -3,7 +3,7 @@ import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 import config from "../config";
 
 function Auth(...roles: string[]) {
-    return (req: Request, res: Response, next: NextFunction): void => {
+    return (req: Request, _res: Response, next: NextFunction): void => {
         try {
             const token = req.headers.authorization;
 
@@ -19,10 +19,14 @@ function Auth(...roles: string[]) {
                 } else {
                     const payload = decode as JwtPayload;
 
-                    // if(roles.includes(payload.))
+                    if (!roles.includes(payload.role)) {
+                        throw new Error('you are not authorized');
 
+                    } else {
+                        req.user = payload;
+                        next()
+                    }
 
-                    console.log(payload);
                 }
             });
 
