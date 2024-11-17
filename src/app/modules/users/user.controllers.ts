@@ -13,8 +13,23 @@ async function createAdmin(req: Request, res: Response) {
             error
         })
     }
+};
+
+async function createdDoctor(req: Request, res: Response) {
+    try {
+        const result = await UserServices.createdDoctorIntoDb(req.body);
+        res.status(result.statusCode).json(result);
+
+    } catch (error) {
+        res.send(500).json({
+            success: false,
+            message: 'something went wrong',
+            error
+        })
+    }
 }
 
 export const UserControllers = {
-    createAdmin
+    createAdmin,
+    createdDoctor
 }
