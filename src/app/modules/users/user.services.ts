@@ -40,8 +40,48 @@ async function createAdminIntoDb(payload: any): Promise<ApiResponse> {
             error,
         }
     }
+};
+
+async function createdDoctorIntoDb(payload: any) {
+
+    try {
+        const userPayload = {
+            email: payload.doctor.email,
+            password: await encryptPassword(payload.password),
+            role: UserRole.DOCTOR
+        };
+
+        const result = await prisma.$transaction(async (tx) => {
+            const createUser = await tx.user.create({
+                data: userPayload
+            });
+
+            const createDoctor = await tx.doctor.create({
+                data: payload.doctor
+            });
+
+            return [createUser, createDoctor]
+        });
+
+        return {
+            success: true,
+            statusCode: 201,
+            message: 'doctor created successfully',
+            data: result[1],
+        }
+
+    } catch (error: any) {
+        return {
+            success: false,
+            statusCode: 500,
+            message: error.message || 'internal server error',
+            error,
+        }
+    }
+
 }
 
 export const UserServices = {
-    createAdminIntoDb
+    createAdminIntoDb,
+    createdDoctorIntoDb
 }
