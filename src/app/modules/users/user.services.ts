@@ -1,6 +1,22 @@
 import { UserRole } from "@prisma/client";
 import { prisma } from "../../constants/prisma_constructor";
 import { encryptPassword } from "../../../utils/hash_password";
+import { JwtPayload } from "jsonwebtoken";
+
+async function getMyProfileFromDb(user: JwtPayload) {
+    try {
+
+        console.log(user);
+
+    } catch (error: any) {
+        return {
+            success: false,
+            statusCode: 500,
+            message: error.message || 'internal server error',
+            error,
+        }
+    }
+}
 
 async function createAdminIntoDb(payload: any): Promise<ApiResponse> {
 
