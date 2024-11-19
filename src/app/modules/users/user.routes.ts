@@ -6,6 +6,10 @@ import { upload } from "../../../utils/file_uploader";
 
 const router = Router();
 
+router.get('/me',
+    Auth([UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.DOCTOR, UserRole.PATIENT]),
+    UserControllers.getMyProfile)
+
 router.post('/create-admin',
     Auth([UserRole.ADMIN, UserRole.SUPER_ADMIN]),
     upload.single('file'),

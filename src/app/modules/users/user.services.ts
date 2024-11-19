@@ -99,5 +99,6 @@ async function createdDoctorIntoDb(payload: any) {
 
 export const UserServices = {
     createAdminIntoDb,
-    createdDoctorIntoDb
+    createdDoctorIntoDb,
+    getMyProfileFromDb
 }
