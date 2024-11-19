@@ -14,17 +14,17 @@ app.use(cors());
 app.use(urlencoded({ extended: true }));
 
 // root endpoint
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (_: Request, res: Response) => {
     res.send('Hello World!');
 });
 
 // application route
 app.use('/api/v1', router);
 
-app.use(globalErrorHandler)
+app.use(globalErrorHandler);
 
 // not found route
-app.all('*', (req: Request, res: Response) => {
+app.all('*', (_: Request, res: Response) => {
     res.status(404).json({
         success: false,
         statusCode: 404,
@@ -49,7 +49,6 @@ process.on('unhandledRejection', () => {
 
     process.exit(1);
 });
-
 
 // synchronies error handle
 process.on('uncaughtException', () => {

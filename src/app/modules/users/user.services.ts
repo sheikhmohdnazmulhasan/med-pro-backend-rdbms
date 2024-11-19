@@ -3,10 +3,28 @@ import { prisma } from "../../constants/prisma_constructor";
 import { encryptPassword } from "../../../utils/hash_password";
 import { JwtPayload } from "jsonwebtoken";
 
-async function getMyProfileFromDb(user: JwtPayload) {
+async function getMyProfileFromDb(tokenInfo: JwtPayload) {
     try {
 
-        console.log(user);
+        const user = await prisma.user.findFirstOrThrow({
+            where: {
+                email: tokenInfo.email
+            }
+        });
+
+        // @ts-ignore
+        const additionalInfo = await prisma[user.role.toLowerCase()].findFirst({
+            where: {
+                email: tokenInfo.email,
+            },
+        });
+
+        return {
+            success: true,
+            statusCode: 201,
+            message: 'User data fetched successfully',
+            data: { ...user, ...additionalInfo }
+        }
 
     } catch (error: any) {
         return {
