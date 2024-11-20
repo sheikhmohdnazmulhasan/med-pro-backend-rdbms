@@ -8,7 +8,11 @@ const router = Router();
 
 router.get('/me',
     Auth([UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.DOCTOR, UserRole.PATIENT]),
-    UserControllers.getMyProfile)
+    UserControllers.getMyProfile);
+
+router.get('/me/update',
+    Auth([UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.DOCTOR, UserRole.PATIENT]),
+    UserControllers.updateMyProfile);
 
 router.post('/create-admin',
     Auth([UserRole.ADMIN, UserRole.SUPER_ADMIN]),
@@ -17,6 +21,6 @@ router.post('/create-admin',
 
 router.post('/create-doctor',
     Auth([UserRole.ADMIN, UserRole.SUPER_ADMIN]),
-    UserControllers.createdDoctor)
+    UserControllers.createdDoctor);
 
 export const UserRoutes = router
