@@ -1,4 +1,4 @@
-import { UserRole } from "@prisma/client";
+import { Admin, Doctor, UserRole } from "@prisma/client";
 import { prisma } from "../../constants/prisma_constructor";
 import { encryptPassword } from "../../../utils/hash_password";
 import { JwtPayload } from "jsonwebtoken";
@@ -24,6 +24,34 @@ async function getMyProfileFromDb(tokenInfo: JwtPayload) {
             statusCode: 201,
             message: 'User data fetched successfully',
             data: { ...user, ...additionalInfo }
+        }
+
+    } catch (error: any) {
+        return {
+            success: false,
+            statusCode: 500,
+            message: error.message || 'internal server error',
+            error,
+        }
+    }
+};
+
+async function updateMyProfileIntoDb(tokenInfo: JwtPayload, payload: Partial<Admin | Doctor>) {
+
+    try {
+
+        const result = await prisma[tokenInfo.role.toLowerCase()].update({
+            where: {
+                email: tokenInfo.email
+            },
+            data: payload
+        });
+
+        return {
+            success: true,
+            statusCode: 201,
+            message: 'User data updated successfully',
+            data: result
         }
 
     } catch (error: any) {
