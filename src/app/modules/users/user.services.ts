@@ -39,8 +39,9 @@ async function getMyProfileFromDb(tokenInfo: JwtPayload) {
 async function updateMyProfileIntoDb(tokenInfo: JwtPayload, payload: Partial<Admin | Doctor>) {
 
     try {
+        const table = prisma[tokenInfo.role.toLowerCase() as keyof typeof prisma] as any
 
-        const result = await prisma[tokenInfo.role.toLowerCase()].update({
+        const result = await table.update({
             where: {
                 email: tokenInfo.email
             },

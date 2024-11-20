@@ -10,7 +10,7 @@ router.get('/me',
     Auth([UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.DOCTOR, UserRole.PATIENT]),
     UserControllers.getMyProfile);
 
-router.get('/me/update',
+router.patch('/me/update',
     Auth([UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.DOCTOR, UserRole.PATIENT]),
     UserControllers.updateMyProfile);
 
